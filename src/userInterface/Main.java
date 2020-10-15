@@ -13,10 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-public class Main implements ActionListener{
-	JFrame main;
+public class Main extends JFrame implements ActionListener{
 	JButton Save, Search;
 	JPanel[] grid;
 	JLabel welcome;
@@ -24,21 +24,14 @@ public class Main implements ActionListener{
 	Color orange;
 	
 	public Main() {
-		// trying to change the Titlebar colour
-		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
+		super();
 		// Initializes elements of the main Window
-		JFrame.setDefaultLookAndFeelDecorated(true);
-		main = new JFrame("Graphic Grabber");
-		main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		main.setMinimumSize(new Dimension(400,500));
-		main.setLocationRelativeTo(null);
+		this.setTitle("Graphic Grabber");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setMinimumSize(new Dimension(400,500));
+		this.setLocationRelativeTo(null);
 		windowIcon = Toolkit.getDefaultToolkit().getImage("GraphicGrabberLogo.png");
-		main.setIconImage(windowIcon);
+		this.setIconImage(windowIcon);
 		
 
 		
@@ -49,6 +42,7 @@ public class Main implements ActionListener{
 			grid[i].setBackground(new Color(220, 220, 220));
 		}
 		
+		// Creates a Title Label
 		welcome = new JLabel("Graphic Grabber");
 		welcome.setFont(new Font("Avenir", Font.CENTER_BASELINE, 40));
 		grid[0].add(welcome);
@@ -68,15 +62,25 @@ public class Main implements ActionListener{
 		Search.addActionListener(this);
 		
 		// Sets the layout of the window
-		main.setLayout(new GridLayout(5,1));
+		this.setLayout(new GridLayout(5,1));
 		
 		// Sets up and shows the window
-		main.add(grid[0]);
-		main.add(Save);
-		main.add(grid[1]);
-		main.add(Search);
-		main.add(grid[2]);
-		main.setVisible(true);
+		this.add(grid[0]);
+		this.add(Save);
+		this.add(grid[1]);
+		this.add(Search);
+		this.add(grid[2]);
+		
+		// changes look of the frame
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		SwingUtilities.updateComponentTreeUI(this);
+		
+		this.setVisible(true);
 	}
 	
 	@Override
@@ -87,5 +91,6 @@ public class Main implements ActionListener{
 		else if(e.getActionCommand() == "Search") {
 			System.out.println("Search");
 		}
+
 	}
 }
