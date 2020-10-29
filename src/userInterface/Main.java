@@ -17,11 +17,17 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 public class Main extends JFrame implements ActionListener{
-	JButton Save, Search;
-	JPanel[] grid;
-	JLabel welcome;
-	Image windowIcon;
-	Color orange;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JButton Save, Search;
+	private JPanel[] grid;
+	private JLabel welcome;
+	private Image windowIcon;
+	private Color orange;
+	private saveWindowFrame saveWin;
+	private SearchWindow searchWin;
 	
 	public Main() {
 		super();
@@ -33,7 +39,8 @@ public class Main extends JFrame implements ActionListener{
 		windowIcon = Toolkit.getDefaultToolkit().getImage("GraphicGrabberLogo.png");
 		this.setIconImage(windowIcon);
 		
-
+		saveWin = new saveWindowFrame();
+		searchWin = new SearchWindow();
 		
 		//Creates the Panels for the Window
 		grid = new JPanel[3];
@@ -79,17 +86,17 @@ public class Main extends JFrame implements ActionListener{
 		}
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		SwingUtilities.updateComponentTreeUI(this);
-		
-		this.setVisible(true);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "Save") {
-			System.out.println("Save");
+			if(!searchWin.isVisible())
+				saveWin.setVisible(true);
 		}
 		else if(e.getActionCommand() == "Search") {
-			System.out.println("Search");
+			if(!saveWin.isVisible())
+			searchWin.setVisible(true);
 		}
 
 	}

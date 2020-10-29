@@ -1,13 +1,18 @@
+package userInterface;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 
-public class Sframe extends JFrame implements ActionListener  {
+public class SearchWindow extends JFrame implements ActionListener  {
 	private  JLabel searchLabel;
 	private  JCheckBox checkbox1;
 	private  JCheckBox checkbox2;
@@ -15,15 +20,15 @@ public class Sframe extends JFrame implements ActionListener  {
 	private  JTextField userText;
 	private  JButton button1;
 	
-	public Sframe()
+	public SearchWindow()
 	{ 
 		JPanel panel = new JPanel();
 		setTitle("Graphic Grabber");
-	       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	       setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	       setSize(200,200);
 	       add(panel);	       
 	       panel.setLayout(null);
-	       setVisible(true);
+
 	       
 	       searchLabel = new JLabel("Search by:");
 	       searchLabel.setBounds(1500, 150, 180, 25);
@@ -54,22 +59,26 @@ public class Sframe extends JFrame implements ActionListener  {
 	       button1 = new JButton("Search");
 	       button1.setBounds(1500, 700, 180, 25);
 	       button1.addActionListener(this);
-	       panel.add(button1);
-	   
-		
+	       panel.add(button1);	   
+	       
+	   	// Resets the Window
+	   	this.addWindowListener(new WindowAdapter() {
+	   		public void windowClosing(WindowEvent we) {
+	   			checkbox1.setSelected(false);
+	   			checkbox2.setSelected(false);
+	   			userText.setText(null);
+	   			setVisible(false);
+	   		}
+	   	});
 	}
-	public static void main(String[] args) {
-		 Sframe frame = new Sframe();
+	
 
-	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String user = userText.getText();
 		
 			System.out.println("Searched for "+ user );
 		}
-		
-
 	}
 		
 	

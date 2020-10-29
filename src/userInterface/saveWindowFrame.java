@@ -1,4 +1,4 @@
-package SaveWindow;
+package userInterface;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -10,6 +10,9 @@ import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -30,28 +33,14 @@ public class saveWindowFrame extends JFrame {
 	private JCheckBox chckbxDeleteOriginalImage;
 	private JButton btnSaveImage;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					saveWindowFrame frame = new saveWindowFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
 	 */
 	public saveWindowFrame() {
 		setTitle("Graphic Grabber");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 400, 372);
 		saveWindow = new JPanel();
 		saveWindow.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -162,6 +151,18 @@ public class saveWindowFrame extends JFrame {
 		gbc_btnSaveImage.gridx = 0;
 		gbc_btnSaveImage.gridy = 10;
 		saveWindow.add(btnSaveImage, gbc_btnSaveImage);
+		
+		// Resets the Window
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
+				saveField.setText(null);
+				tagField.setText(null);
+				artistField.setText(null);
+				chckbxDeleteOriginalImage.setSelected(false);
+				setVisible(false);
+			}
+		});
 	}
+
 
 }
