@@ -23,10 +23,14 @@ public class SampleQuery {
 	    connection.setRequestMethod("POST");
 	    connection.setDoOutput(true);
 	    
-	    // Creates and formats the variables to be sent by POST
+	    // Creates the message to be sent by POST
 	    Map<String,String> arguments = new HashMap<>();
+	    
+	    // First arguments is used in php script
 	    arguments.put("param1", "*");
 	    arguments.put("param2", "Tags");
+	    
+	    // Formats arguments into a POST message
 	    StringJoiner sj = new StringJoiner("&");
 	    for(Map.Entry<String,String> entry : arguments.entrySet())
 	        sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "=" 
@@ -34,17 +38,19 @@ public class SampleQuery {
 	    byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
 	    int length = out.length;
 	    
-	    // Sets length and type of POST message
+	    // Sets length and type of message
 	    connection.setFixedLengthStreamingMode(length);
 	    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+	    
 	    // Connects to the URL
 	    connection.connect();
 	    
-	    // Writes the POST message to the php application
+	    // Writes the POST message to the URL
 	    try(OutputStream os = connection.getOutputStream()) {
 	        os.write(out);
 	    }
 	    
+	    // Informative print statement
 	    System.out.println("Send 'HTTP POST' request to : " + url);
 	 
 	    // Stores response of the URL
@@ -63,7 +69,10 @@ public class SampleQuery {
 	            response.append('\n');
 	        }
 	        inputReader.close();
+	        
        // Display output
+	   // When receiving an image, it will have to be decoded
+	   // Consider sending two separate messages, one for image and one for the other fields
 	        System.out.println(response.toString());
 	    }
 	}
