@@ -1,3 +1,5 @@
+package connectDB;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -10,7 +12,7 @@ import java.util.Map;
 public class TagQuery {
 
 	public static void main(String[] args) throws Exception {
-		String url = "";
+		String url = "http://dipie111.myweb.cs.uwindsor.ca/test.php";
 		 
 	    URL UrlObj = new URL(url);
 	 
@@ -24,7 +26,7 @@ public class TagQuery {
 	    
 	    // First arguments is used in php script
 	    arguments.put("param1", "*"); 
-	    arguments.put("param2", "Tag");
+	    arguments.put("param2", "Tags");
 	    
 	    StringBuilder requestData = new StringBuilder();
 
@@ -71,7 +73,7 @@ public class TagQuery {
 	            response.append('\n');
 	        }
 	        inputReader.close();
-	        
+	        System.out.println("Response");
 	        System.out.println(response.toString());
 	}
 	    

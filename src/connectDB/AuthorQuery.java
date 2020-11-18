@@ -1,3 +1,5 @@
+package connectDB;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -25,7 +27,7 @@ public class AuthorQuery {
 	    
 	    // First arguments is used in php script
 	    arguments.put("param1", "*"); 
-	    arguments.put("param2", "Author");
+	    arguments.put("param2", "Authors");
 	    
 	    StringBuilder requestData = new StringBuilder();
 
