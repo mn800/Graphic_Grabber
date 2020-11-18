@@ -14,7 +14,7 @@ import java.util.StringJoiner;
 
 import application.DBImage;
 
-public class SQLQuery {
+public class DBQuery {
 	
 	public String insertImage(DBImage img) {
 		try {
