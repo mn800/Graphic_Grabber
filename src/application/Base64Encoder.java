@@ -1,24 +1,22 @@
-package connectDB;
+package application;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Base64;
 
 public class Base64Encoder {
-	public static void main(String[] args) {
-	    File f =  new File("C:/Users/Desktop/name.jpg"); //Don't know how to save to database
-	    String encodstring = encodeFileToBase64Binary(f);
-	    System.out.println(encodstring);
-    }
-	
-	private static String encodeFileToBase64Binary(File file){
-	    String encodedfile = null;
+
+	public static String encodeFileToBase64Binary(File file){
 	    try {
 	    	FileInputStream fileInputStreamReader = new FileInputStream(file);
 	    	byte[] bytes = new byte[(int)file.length()];
 	    	fileInputStreamReader.read(bytes);
-	    	encodedfile = new String(Base64.encodeBase64(bytes), "UTF-8");
+	    	String encodedfile = new String(Base64.getEncoder().encodeToString(bytes));
+	    	fileInputStreamReader.close();
+	    	return encodedfile;
 	    }
 	    catch (FileNotFoundException e) {
 	    	e.printStackTrace();
@@ -26,6 +24,12 @@ public class Base64Encoder {
 	    catch (IOException e) {
 	    	e.printStackTrace();
     	}
-    	return encodedfile;
-	    }
+		return null;
+    }
+	
+	public static ByteArrayInputStream decodeBase64Binary(String file){
+	    byte[] imageback = Base64.getDecoder().decode(file);
+		ByteArrayInputStream bis = new ByteArrayInputStream(imageback);
+		return bis;
+    }
 }
