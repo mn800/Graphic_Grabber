@@ -1,4 +1,4 @@
-package connectDB;
+/*package connectDB;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,4 +28,4 @@ public class Base64Encoder {
     	}
     	return encodedfile;
 	    }
-}
+}*/

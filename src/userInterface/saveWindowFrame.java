@@ -1,6 +1,7 @@
 package userInterface;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,16 +11,21 @@ import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.SwingConstants;
 
-public class saveWindowFrame extends JFrame {
+public class saveWindowFrame extends JFrame implements ActionListener {
 
 	private JPanel saveWindow;
 	private JTextField saveField;
@@ -32,7 +38,16 @@ public class saveWindowFrame extends JFrame {
 	private JButton btnAddArtist;
 	private JCheckBox chckbxDeleteOriginalImage;
 	private JButton btnSaveImage;
-
+	
+	private File imageToSave;
+	private String imageDirectory;
+	
+	// Exploring the idea of using lists to store multiple tags
+	//private List tagList; 
+	//private List authorList;
+	
+	private String tag;
+	private String authorTag;
 
 
 	/**
@@ -72,6 +87,19 @@ public class saveWindowFrame extends JFrame {
 		saveField.setColumns(10);
 		
 		JButton browseButton = new JButton("Browse");
+		browseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+
+			      int rVal = chooser.showOpenDialog(saveWindowFrame.this);
+			      if (rVal == JFileChooser.APPROVE_OPTION) {
+			    	  saveField.setText(chooser.getSelectedFile().getName());
+			    	  imageToSave = chooser.getSelectedFile(); // Saves file, used for saving later
+			    	  imageDirectory = chooser.getCurrentDirectory().toString(); // Saves directory, might be useful later? Not sure.
+			      }
+			}
+		});
+	
 		GridBagConstraints gbc_browseButton = new GridBagConstraints();
 		gbc_browseButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_browseButton.anchor = GridBagConstraints.WEST;
@@ -99,6 +127,15 @@ public class saveWindowFrame extends JFrame {
 		tagField.setColumns(10);
 		
 		btnAddTag = new JButton("Add");
+		
+		btnAddTag.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!tagField.getText().equals("")) {
+					tag = tagField.getText();
+					System.out.println("Tag added: " + tag);
+				}							
+			}
+		});
 		GridBagConstraints gbc_btnAddTag = new GridBagConstraints();
 		gbc_btnAddTag.anchor = GridBagConstraints.WEST;
 		gbc_btnAddTag.fill = GridBagConstraints.HORIZONTAL;
@@ -126,6 +163,15 @@ public class saveWindowFrame extends JFrame {
 		artistField.setColumns(10);
 		
 		btnAddArtist = new JButton("Add");
+		
+		btnAddArtist.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!artistField.getText().equals("")) {
+					authorTag = artistField.getText();
+					System.out.println("Author tag added: " + authorTag);
+				}							
+			}
+		});
 		GridBagConstraints gbc_btnAddArtist = new GridBagConstraints();
 		gbc_btnAddArtist.anchor = GridBagConstraints.WEST;
 		gbc_btnAddArtist.fill = GridBagConstraints.HORIZONTAL;
@@ -145,6 +191,24 @@ public class saveWindowFrame extends JFrame {
 		saveWindow.add(chckbxDeleteOriginalImage, gbc_chckbxDeleteOriginalImage);
 		
 		btnSaveImage = new JButton("Save Image");
+		btnSaveImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (imageToSave != null) {
+					try {						
+						SaveImage(imageToSave);		
+						
+						if (chckbxDeleteOriginalImage.isSelected()) { // Checks the value of the checkbox and deletes original image if true
+							//imageToSave.delete(); // Disabled for now so we don't delete images while testing
+						}
+					}
+					
+					catch (Exception exception) {
+						System.out.println("Error occured while attempting to save an image.");
+					}
+				}							
+			}
+		});
+		
 		GridBagConstraints gbc_btnSaveImage = new GridBagConstraints();
 		gbc_btnSaveImage.gridwidth = 4;
 		gbc_btnSaveImage.insets = new Insets(0, 0, 5, 5);
@@ -162,6 +226,25 @@ public class saveWindowFrame extends JFrame {
 				setVisible(false);
 			}
 		});
+	}
+	
+	public void SaveImage(File image)
+	{
+		// Encoding method from Base64Encoder.java to be implemented here
+		
+
+		System.out.println("File: " + imageToSave);
+		System.out.println("Tag: " + tag);
+		System.out.println("Artist Tag: " + authorTag);
+		System.out.println("Delete original image: " + chckbxDeleteOriginalImage.isSelected());
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
