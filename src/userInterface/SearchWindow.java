@@ -111,7 +111,7 @@ public class SearchWindow extends JFrame implements ActionListener  {
 		
 		else if(e.getActionCommand() == "Search") {
 			// Removes leading and trailing whitespace
-			String input = userText.getText().strip();
+			String input = userText.getText();
 			
 			// Checks if searching by Tag or Artist
 			if(this.checkbox1.isSelected()) {

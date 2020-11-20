@@ -28,10 +28,10 @@ public class DBQuery {
 	private static String insertURL = "http://dipie111.myweb.cs.uwindsor.ca/GraphicGrabber/upload.php";	
 	
 	// Used to insert images into the Database
-	public static boolean insertImage() {
+	// ArrayList should be in order (PId, PName, PType, Picture, Artist, Tags...)
+	public static boolean insertImage(ArrayList<String> args) {
 		try {
 			// Create Arguments from image
-			ArrayList<String> args = new ArrayList<String>();
 			insertQuery(args);
 		
 			return true;
