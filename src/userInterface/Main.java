@@ -57,7 +57,7 @@ public class Main extends JFrame implements ActionListener{
 		orange = new Color(233,144,74);
 		
 		// Creates the Button and puts them into panels
-		Save = new JButton("Save");
+		Save = new JButton("Upload");
 		Save.setBackground(orange);
 		Save.setFont(new Font("Avenir", Font.PLAIN, 25));
 
@@ -90,7 +90,7 @@ public class Main extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand() == "Save") {
+		if(e.getActionCommand() == "Upload") {
 			if(!searchWin.isVisible())
 				saveWin.setVisible(true);
 		}

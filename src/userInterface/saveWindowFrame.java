@@ -190,7 +190,7 @@ public class saveWindowFrame extends JFrame implements ActionListener {
 		gbc_chckbxDeleteOriginalImage.gridy = 9;
 		saveWindow.add(chckbxDeleteOriginalImage, gbc_chckbxDeleteOriginalImage);
 		
-		btnSaveImage = new JButton("Save Image");
+		btnSaveImage = new JButton("Upload Image");
 		btnSaveImage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (imageToSave != null) {

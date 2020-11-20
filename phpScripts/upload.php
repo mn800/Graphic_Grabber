@@ -17,7 +17,6 @@ if($result->num_rows != 0){
 $imgbin = base64_decode($params['p3']);
 unset($params['p3']);
 
-
 $null = null;
 $sql = "INSERT INTO Pictures VALUES (?,?,?,?)";
 $stmt = $dbc->prepare($sql);
