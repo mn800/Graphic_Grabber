@@ -12,33 +12,41 @@ public class DBImage {
 	private Image img;
 	private ArrayList<String> tags;
 	private int numTags;
-	private String author;
+	private String artist;
 	private String name;
+	private String type;
 	
 	public DBImage() {
 		img = null;
 		tags = new ArrayList<String>();
-		author = "";
+		artist = "";
 		name = "";
 		numTags = 0;
 	}
 	
-	public DBImage(Image img, ArrayList<String> tags, String author, String name) {
+	public DBImage(Image img, String name, String type) {
+		this.img = img;
+		this.name = name;
+		this.type = type;
+	}
+	
+	public DBImage(Image img, ArrayList<String> tags, String artist, String name) {
 		this.img = img;
 		this.tags = tags;
-		this.author = author;
+		this.artist = artist;
 		this.numTags = tags.size();
 		this.name = name;
 	}
 	
-	public DBImage(Image img, String tags, String author, String name) {
+	public DBImage(Image img, String tags, String artist, String name, String type) {
 		this.img = img;
 		this.tags = new ArrayList<String>();
 		this.tags.add(tags);
-		this.author = author;
+		this.artist = artist;
 		this.numTags = 1;
 		this.name = name;
 	}
+	
 	
 	
 	public void setImage(Image image) {
@@ -75,11 +83,11 @@ public class DBImage {
 	}
 	
 	public void setAuthor(String auth) {
-		this.author = auth;
+		this.artist = auth;
 	}
 	
 	public String getAuthor() {
-		return author.toString();
+		return artist.toString();
 	}
 	
 	public String getName() {
