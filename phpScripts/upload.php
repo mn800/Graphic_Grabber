@@ -4,12 +4,19 @@ require_once ('connectvars.php');
 $dbc = new mysqli(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
 $params = $_POST;
 
+$PId = $params['p0'];
+unset($params['p0']);
+
+// Quickly checks that PId does not exist
+$result = $dbc->query(sprintf("SELECT PId FROM Pictures WHERE PId ='%s'",$PId));
+if($result->num_rows != 0){
+    $dbc->close();
+    exit();
+}
 // Decodes the Base64 String of the image
 $imgbin = base64_decode($params['p3']);
 unset($params['p3']);
 
-$PId = $params['p0'];
-unset($params['p0']);
 
 $null = null;
 $sql = "INSERT INTO Pictures VALUES (?,?,?,?)";
