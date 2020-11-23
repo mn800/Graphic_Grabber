@@ -20,15 +20,16 @@ import javax.imageio.ImageIO;
 import application.Base64Encoder;
 import application.DBImage;
 
-
-
 public class DBQuery {
 	// php files for search and upload
 	private static String searchURL = "http://dipie111.myweb.cs.uwindsor.ca/GraphicGrabber/search.php";
 	private static String insertURL = "http://dipie111.myweb.cs.uwindsor.ca/GraphicGrabber/upload.php";	
 	
-	// Used to insert images into the Database
-	// ArrayList should be in order (PId, PName, PType, Picture, Artist, Tags...)
+	/*
+	 * Description: function that takes an image and inserts it into the database
+	 * Input: An ArrayList that contains the information of the image. Needs to be in form (PId, PName, PType, Picture, Artist, Tag)
+	 * Output: Image and appropriate tags are inserted into the database
+	 */
 	public static boolean insertImage(ArrayList<String> args) {
 		try {
 			// Create Arguments from image
@@ -40,14 +41,17 @@ public class DBQuery {
 		}
 	}
 	
-	// Used to query the database based on tags
+	/*
+	 * Description: Searches the database for images that have a given tag.
+	 * Input: Tag to search by
+	 * Output: A list of images from the database
+	 */
 	public static ArrayList<DBImage> tagQuery(String arg) {
 		try {
 			ArrayList<String> params = new ArrayList<String>();
 			params.add("Tags");
 			params.add("Tag");
 			params.add(arg);
-			
 			
 			ArrayList<String> response = selectQuery(params);
 			// Format response
@@ -65,7 +69,11 @@ public class DBQuery {
 		}
 	}
 	
-	// Used to query the database based on authors
+	/*
+	 * Description: Searches the database for images by a given artist.
+	 * Input: Artist to search by
+	 * Output: A list of images from the database
+	 */
 	public static ArrayList<DBImage> artistQuery(String arg) {
 		try {
 			ArrayList<String> params = new ArrayList<String>();
@@ -91,7 +99,11 @@ public class DBQuery {
 		}
 	}
 
-	// Generic query that sends parameters to the php scripts
+	/*
+	 * Description: Generic function for searching through the database
+	 * Input: A list of arguments in the order (Table, Column, value)
+	 * Output: The String representation of each image
+	 */
 	private static ArrayList<String> selectQuery(ArrayList<String> args) throws Exception {
 		 
 	    URL UrlObj = new URL(searchURL);
@@ -149,15 +161,17 @@ public class DBQuery {
 	        }
 	        inputReader.close();
 	        
-       // Display output
-	   // When receiving an image, it will have to be decoded
-	   // Consider sending two separate messages, one for image and one for the other fields
 	        return response;
 	    }
 	    else 
 	    	return null;
 	}
 	
+	/*
+	 * Description: Generic function for inserting into the database
+	 * Input: A list of arguments in the order (PId, PName, PType, Picture, Artist, Tag)
+	 * Output: True or False depending on if the image was able to be put into the database
+	 */
 	private static boolean insertQuery(ArrayList<String> args) {
 	
 		try {
@@ -173,11 +187,9 @@ public class DBQuery {
 		    
 		    // First arguments is used in php script
 		    int i = 0;
-		    for( i = 0; i < args.size()-1; i++) {
+		    for( i = 0; i < args.size(); i++) {
 		    	arguments.put(String.format("p%d", i), args.get(i));
 		    }
-		    
-		    arguments.put(String.format("p%d", i),Base64Encoder.encodeFileToBase64Binary(new File(args.get(i))));
 		    
 		    // Formats arguments into a POST message
 		    StringJoiner sj = new StringJoiner("&");

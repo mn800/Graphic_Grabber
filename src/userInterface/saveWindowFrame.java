@@ -1,21 +1,18 @@
 package userInterface;
 
-import java.awt.BorderLayout;
-
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import application.Base64Encoder;
+import application.PIdTracker;
 import connectDB.DBQuery;
 
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -31,7 +28,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.SwingConstants;
 
-public class saveWindowFrame extends JFrame implements ActionListener {
+public class saveWindowFrame extends JFrame {
 
 	private JPanel saveWindow;
 	private JTextField saveField;
@@ -54,12 +51,18 @@ public class saveWindowFrame extends JFrame implements ActionListener {
 	
 	private String tag;
 	private String authorTag;
+	private int PId;
 
 
 	/**
 	 * Create the frame.
 	 */
 	public saveWindowFrame() {
+		try {
+			PId = Integer.parseInt(PIdTracker.getCurrentPId());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		setTitle("Graphic Grabber");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 400, 372);
@@ -96,7 +99,8 @@ public class saveWindowFrame extends JFrame implements ActionListener {
 		browseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
-
+				chooser.setFileFilter(new FileNameExtensionFilter("Image files", "jpg","png"));
+				chooser.setAcceptAllFileFilterUsed(false);
 			      int rVal = chooser.showOpenDialog(saveWindowFrame.this);
 			      if (rVal == JFileChooser.APPROVE_OPTION) {
 			    	  saveField.setText(chooser.getSelectedFile().getName());
@@ -239,6 +243,7 @@ public class saveWindowFrame extends JFrame implements ActionListener {
 		ArrayList<String> imageData = new ArrayList<String>();
 		String imageName = image.getName();
 		String fileType = "";
+		
 		String imageDataString = Base64Encoder.encodeFileToBase64Binary(image); // Encode the image to Base64
 		
 		// Finds file extension
@@ -251,8 +256,8 @@ public class saveWindowFrame extends JFrame implements ActionListener {
 		}
 
 		imageName = imageName.substring(0, x); // Makes sure the file extension is excluded from the image name for saving purposes
-		
-		imageData.add("testID");
+		String PIdStr = String.valueOf(++PId);
+		imageData.add(PIdStr);
 		imageData.add(imageName);
 		imageData.add(fileType);
 		imageData.add(imageDataString);
@@ -260,7 +265,12 @@ public class saveWindowFrame extends JFrame implements ActionListener {
 		imageData.add(tag);
 				
 		// ArrayList should be in order (PId, PName, PType, Picture, Artist, Tags...)
-		//DBQuery.insertImage(imageData);
+		DBQuery.insertImage(imageData);
+		try {
+			PIdTracker.setCurrentPId(PIdStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		System.out.println("File: " + image);
 		System.out.println("Filename: " + imageName);
@@ -268,16 +278,9 @@ public class saveWindowFrame extends JFrame implements ActionListener {
 		//System.out.println("Base64 String: " + dataString);
 		System.out.println("Tag: " + tag);
 		System.out.println("Artist Tag: " + authorTag);
+		
+		// Still need to implement this feature or take it out
 		System.out.println("Delete original image: " + chckbxDeleteOriginalImage.isSelected());
 	}
-
-
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 }
