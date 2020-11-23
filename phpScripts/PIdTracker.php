@@ -1,5 +1,6 @@
 <?php 
+// Connects to file that contains the current highest PId
 $myfile = fopen("PIDTracker.txt", "r");
-echo fread($myfile,filezise("webdictionary.txt"));
+printf("%s", fread($myfile,filesize("PIDTracker.txt")));
 fclose($myfile);
 ?>
