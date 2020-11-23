@@ -7,6 +7,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import application.Base64Encoder;
+import connectDB.DBQuery;
+
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
@@ -17,10 +21,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.SwingConstants;
@@ -230,10 +236,36 @@ public class saveWindowFrame extends JFrame implements ActionListener {
 	
 	public void SaveImage(File image)
 	{
-		// Encoding method from Base64Encoder.java to be implemented here
+		ArrayList<String> imageData = new ArrayList<String>();
+		String imageName = image.getName();
+		String fileType = "";
+		String imageDataString = Base64Encoder.encodeFileToBase64Binary(image); // Encode the image to Base64
 		
+		// Finds file extension
+		int x = imageName.lastIndexOf(".");
+		fileType = imageName.substring(x);
+		
+		if (!fileType.equals(".jpg") && !fileType.equals(".png")) {
+			JOptionPane.showMessageDialog(saveWindow, "Invalid file type, please select a .jpg or .png file.");
+			return;
+		}
 
-		System.out.println("File: " + imageToSave);
+		imageName = imageName.substring(0, x); // Makes sure the file extension is excluded from the image name for saving purposes
+		
+		imageData.add("testID");
+		imageData.add(imageName);
+		imageData.add(fileType);
+		imageData.add(imageDataString);
+		imageData.add(authorTag);
+		imageData.add(tag);
+				
+		// ArrayList should be in order (PId, PName, PType, Picture, Artist, Tags...)
+		//DBQuery.insertImage(imageData);
+		
+		System.out.println("File: " + image);
+		System.out.println("Filename: " + imageName);
+		System.out.println("File Type: " + fileType);
+		//System.out.println("Base64 String: " + dataString);
 		System.out.println("Tag: " + tag);
 		System.out.println("Artist Tag: " + authorTag);
 		System.out.println("Delete original image: " + chckbxDeleteOriginalImage.isSelected());
