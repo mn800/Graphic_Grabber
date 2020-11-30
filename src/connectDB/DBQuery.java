@@ -31,14 +31,12 @@ public class DBQuery {
 	 * Output: Image and appropriate tags are inserted into the database
 	 */
 	public static boolean insertImage(ArrayList<String> args) {
-		try {
 			// Create Arguments from image
-			insertQuery(args);
-		
+		if(insertQuery(args))
 			return true;
-		} catch(Exception e) {
+		else
 			return false;
-		}
+
 	}
 	
 	/*

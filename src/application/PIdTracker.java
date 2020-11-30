@@ -37,50 +37,48 @@ public class PIdTracker {
 	    }
 	}
 	
-	public static void setCurrentPId(String arg) throws Exception{
-		URL UrlObj = new URL(updatePId);
-		 
-	    // Creates the Connection to website, and sets the Request and Output forms to POST
-	    HttpURLConnection connection = (HttpURLConnection) UrlObj.openConnection();
-	    connection.setRequestMethod("POST");
-	    connection.setDoOutput(true);
-	    
-	    // Creates the message to be sent by POST
-	    Map<String,String> arguments = new HashMap<>();
-	    
-	    // Formats arguments into a POST message
-	    String PId = "PId="+arg;
-;
-	    byte[] out = PId.getBytes(StandardCharsets.UTF_8);
-	    int length = out.length;
-	    
-	    // Sets length and type of message
-	    connection.setFixedLengthStreamingMode(length);
-	    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-	    
-	    // Connects to the URL
-	    connection.connect();
-	    
-	    // Writes the POST message to the URL
-	    try(OutputStream os = connection.getOutputStream()) {
-	        os.write(out);
-	    }
-	 
-	    // Stores response of the URL
-	    int responseCode = connection.getResponseCode();
-	   	System.out.println(responseCode);
-	    // If connection was successful then read output
-	    if (responseCode == HttpURLConnection.HTTP_OK) {
-	        BufferedReader inputReader = new BufferedReader(
-	            new InputStreamReader(connection.getInputStream()));
-	        String inputLine;
+	public static boolean setCurrentPId(String arg){
+		try {
+			if(!arg.matches("[a-zA-Z0-9]+"))
+					return false;
+			URL UrlObj = new URL(updatePId);
+			 
+		    // Creates the Connection to website, and sets the Request and Output forms to POST
+		    HttpURLConnection connection = (HttpURLConnection) UrlObj.openConnection();
+		    connection.setRequestMethod("POST");
+		    connection.setDoOutput(true);
 
-	        ArrayList<String> response = new ArrayList<String>();
-	 
-	        while ((inputLine = inputReader.readLine()) != null) {
-	            response.add(inputLine);
-	        }
-	        inputReader.close();
-	    }
+		    // Formats arguments into a POST message
+		    String PId = "PId="+arg;
+		    
+		    byte[] out = PId.getBytes(StandardCharsets.UTF_8);
+		    int length = out.length;
+		    
+		    // Sets length and type of message
+		    connection.setFixedLengthStreamingMode(length);
+		    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+		    
+		    // Connects to the URL
+		    connection.connect();
+		    
+		    // Writes the POST message to the URL
+		    try(OutputStream os = connection.getOutputStream()) {
+		        os.write(out);
+		    }
+		 
+		    // Stores response of the URL
+		    int responseCode = connection.getResponseCode();
+
+		    // Checks if call was successful
+		    if (responseCode == HttpURLConnection.HTTP_OK) {
+		    	return true;
+		    }
+		    else {
+		    	return false;
+		    }
+		}
+		catch(Exception e) {
+			return false;
+		}
 	}
 }

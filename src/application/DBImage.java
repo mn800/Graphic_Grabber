@@ -30,12 +30,13 @@ public class DBImage {
 		this.type = type;
 	}
 	
-	public DBImage(Image img, ArrayList<String> tags, String artist, String name) {
+	public DBImage(Image img, ArrayList<String> tags, String artist, String name, String type) {
 		this.img = img;
 		this.tags = tags;
 		this.artist = artist;
 		this.numTags = tags.size();
 		this.name = name;
+		this.type = type;
 	}
 	
 	public DBImage(Image img, String tags, String artist, String name, String type) {
@@ -45,9 +46,8 @@ public class DBImage {
 		this.artist = artist;
 		this.numTags = 1;
 		this.name = name;
+		this.type = type;
 	}
-	
-	
 	
 	public void setImage(Image image) {
 		this.img = image;
@@ -82,6 +82,15 @@ public class DBImage {
 		return numTags;
 	}
 	
+	public String getTag() {
+		if(numTags == 1) {
+			return tags.get(0);
+		}
+		else {
+			return tags.toString();
+		}
+	}
+	
 	public void setAuthor(String auth) {
 		this.artist = auth;
 	}
@@ -92,5 +101,19 @@ public class DBImage {
 	
 	public String getName() {
 		return name.toString();
+	}
+	
+	public String getType() {
+		return this.type;
+	}
+	
+	public boolean setType(String type) {
+		if(type == "jpg" || type == "png") {
+			this.type = type;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
